@@ -1,12 +1,20 @@
 package com.hencoder.hencoderpracticedraw7.practice.practice06;
 
+import android.animation.Keyframe;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.hencoder.hencoderpracticedraw7.R;
+
+import java.security.Key;
 
 public class Practice06KeyframeLayout extends RelativeLayout {
     Practice06KeyframeView view;
@@ -31,7 +39,7 @@ public class Practice06KeyframeLayout extends RelativeLayout {
         view = (Practice06KeyframeView) findViewById(R.id.objectAnimatorView);
         animateBt = (Button) findViewById(R.id.animateBt);
 
-        animateBt.setOnClickListener(new OnClickListener() {
+        animateBt.setOnClickListener(new OnClickListener() {//这个比较有使用场景
             @Override
             public void onClick(View v) {
                 // 使用 Keyframe.ofFloat() 来为 view 的 progress 属性创建关键帧
@@ -40,6 +48,16 @@ public class Practice06KeyframeLayout extends RelativeLayout {
                 // 结束帧：progress 回落到 80
                 // 使用 PropertyValuesHolder.ofKeyframe() 来把关键帧拼接成一个完整的属性动画方案
                 // 使用 ObjectAnimator.ofPropertyValuesHolder() 来创建动画
+
+
+                Keyframe keyframe = Keyframe.ofFloat(0, 0);
+                Keyframe keyframe1 = Keyframe.ofFloat(0.5f, 100);
+                Keyframe keyframe2 = Keyframe.ofFloat(1, 80);
+                PropertyValuesHolder progress = PropertyValuesHolder.ofKeyframe("progress", keyframe, keyframe1, keyframe2);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(view, progress);
+                objectAnimator.setDuration(2000);
+                objectAnimator.setInterpolator(new FastOutSlowInInterpolator());
+                objectAnimator.start();
             }
         });
     }
